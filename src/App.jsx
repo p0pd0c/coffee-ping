@@ -133,7 +133,7 @@ export default function App() {
                                                 }}/>
                                                 <List.Content>
                                                     <p>{`(${number.substring(0,3)})-${number.substring(3,6)}-${number.substring(6)}`}</p>
-                                                    {activeNumbers.includes(number) ?
+                                                    {(Array.isArray(activeNumbers) && activeNumbers.includes(number)) ?
                                                         <Checkbox slider checked onClick={() => handleToggle(number)} /> : <Checkbox slider onClick={() => handleToggle(number)} />
                                                     }
                                                     
