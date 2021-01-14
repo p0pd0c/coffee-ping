@@ -4,7 +4,7 @@ import './App.sass'
 import Header from './components/App/Header'
 import axios from 'axios'
 import { Segment, Divider, Grid, Image, List, Container, Card, Icon, Input, Button, Message, Checkbox } from 'semantic-ui-react'
-
+const ip = '10.173.1.72'
 export default function App() {
     const [numbers, setNumbers] = React.useState([])
     const [activeNumbers, setActiveNumbers] = React.useState([])
@@ -13,14 +13,14 @@ export default function App() {
     const [warnForm, setWarnForm] = React.useState(false)
 
     React.useEffect(() => {
-        axios.get('http://10.173.1.85:3001/')
+        axios.get(`http://${ip}:3001/`)
             .then(response => {
                 setNumbers(response.data)
             })
     },[currentNumber])
 
     React.useEffect(() => {
-        axios.get('http://10.173.1.85:3001/active')
+        axios.get(`http://${ip}:3001/active`)
             .then(response => {
                 setActiveNumbers(response.data)
             })
@@ -29,7 +29,7 @@ export default function App() {
     const handleFormSubmission = (e) => {
         e.preventDefault()
         if(!warnForm && !errorForm && currentNumber !== "") {
-            axios.post('http://10.173.1.85:3001/', { currentNumber: currentNumber })
+            axios.post(`http://${ip}:3001/`, { currentNumber: currentNumber })
                 .then(() => {
                     console.log('Form submitted')
                     setCurrentNumber("")
@@ -66,7 +66,7 @@ export default function App() {
 
     const handleDelete = (arg) => {
         console.log(arg)
-        axios.get(`http://10.173.1.85:3001/del?number=${arg}`)
+        axios.get(`http://${ip}:3001/del?number=${arg}`)
             .then(result => {
                 setNumbers(numbers.filter(number => number !== arg))
             })
@@ -75,13 +75,13 @@ export default function App() {
     const handleToggle = (number) => {
         console.log(activeNumbers)
         if(activeNumbers.includes(number)) {
-            axios.get(`http://10.173.1.85:3001/deactivate?number=${number}`)
+            axios.get(`http://${ip}:3001/deactivate?number=${number}`)
                 .then(response => {
                     console.log(response)
                     setActiveNumbers(activeNumbers.filter(act_num => act_num !== number))
                 })
         } else {
-            axios.get(`http://10.173.1.85:3001/activate?number=${number}`)
+            axios.get(`http://${ip}:3001/activate?number=${number}`)
                 .then(response => {
                     console.log(response)
                     setActiveNumbers(activeNumbers.push(number))
