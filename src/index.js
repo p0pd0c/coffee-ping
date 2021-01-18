@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
 import App from './App'
+import AppTest from './AppTest'
 import './index.css'
-render(<App />,document.getElementById('root'))
+render(<AppTest />,document.getElementById('root'))
