@@ -22,7 +22,11 @@ export default function App() {
     React.useEffect(() => {
         axios.get(`http://${ip}:3001/active`)
             .then(response => {
-                setActiveNumbers(response.data)
+                if (Array.isArray(response.data)) {
+                    setActiveNumbers(response.data)
+                } else {
+                    setActiveNumbers([])
+                }
             })
     },[])
 
@@ -74,18 +78,20 @@ export default function App() {
 
     const handleToggle = (number) => {
         console.log(activeNumbers)
-        if(activeNumbers.includes(number)) {
-            axios.get(`http://${ip}:3001/deactivate?number=${number}`)
-                .then(response => {
-                    console.log(response)
-                    setActiveNumbers(activeNumbers.filter(act_num => act_num !== number))
-                })
-        } else {
-            axios.get(`http://${ip}:3001/activate?number=${number}`)
-                .then(response => {
-                    console.log(response)
-                    setActiveNumbers(activeNumbers.push(number))
-                })
+        if (Array.isArray(activeNumbers)) {
+            if(activeNumbers.includes(number)) {
+                axios.get(`http://${ip}:3001/deactivate?number=${number}`)
+                    .then(response => {
+                        console.log(response)
+                        setActiveNumbers(activeNumbers.filter(act_num => act_num !== number))
+                    })
+            } else {
+                axios.get(`http://${ip}:3001/activate?number=${number}`)
+                    .then(response => {
+                        console.log(response)
+                        setActiveNumbers(activeNumbers.push(number))
+                    })
+            }
         }
     }
 
