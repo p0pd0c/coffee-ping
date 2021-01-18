@@ -45,3 +45,4 @@ const AppTest = () => {
         </React.Fragment>
     )
 }
+export default AppTest
